@@ -1,6 +1,7 @@
 package br.com.alura.screensound.main;
 
 import br.com.alura.screensound.models.Artist;
+import br.com.alura.screensound.models.Type;
 import br.com.alura.screensound.repository.ArtistRepository;
 
 import java.util.Scanner;
@@ -47,8 +48,14 @@ public class Main {
         System.out.print("Digite o nome do Artista / Banda: ");
         var artistName = sc.nextLine();
         System.out.print("Digite o que é [SOLO, DUPLA, BANDA]: ");
-        var type = sc.nextLine();
-        Artist artist = new Artist(artistName, type);
-        repository.save(artist);
+        var sType = sc.nextLine();
+        try{
+            var type = Type.valueOf(sType.toUpperCase());
+            Artist artist = new Artist(artistName, type);
+            repository.save(artist);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Erro ao converter o tipo de artista!");
+        }
     }
 }

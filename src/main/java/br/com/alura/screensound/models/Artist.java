@@ -18,7 +18,7 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Artist() {
+    public Artist(String artistName, Type type) {
     }
 
     public Artist(String name, Type type, List<Music> musics) {
