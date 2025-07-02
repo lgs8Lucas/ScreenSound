@@ -18,18 +18,19 @@ public class Artist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Artist(String artistName, Type type) {
-    }
-
     public Artist(String name, Type type, List<Music> musics) {
         this.name = name;
         this.type = type;
         this.musics = musics;
     }
 
-    public Artist(String name, String type) {
+    public Artist(String name, Type type) {
         this.name = name;
-        this.type = Type.valueOf(type.toUpperCase());
+        this.type = type;
+    }
+
+    public Artist() {
+
     }
 
     public void setId(Long id) {

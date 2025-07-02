@@ -4,11 +4,14 @@ import br.com.alura.screensound.models.Artist;
 import br.com.alura.screensound.models.Type;
 import br.com.alura.screensound.repository.ArtistRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private final Scanner sc = new Scanner(System.in);
     ArtistRepository repository;
+    List<Artist> artists = new ArrayList<>();
 
     public Main(ArtistRepository artistRepository) {
         this.repository = artistRepository;
@@ -35,6 +38,13 @@ public class Main {
                 case 1:
                     insertArtist();
                     break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    listArtists();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     return;
@@ -57,5 +67,10 @@ public class Main {
         catch (IllegalArgumentException e){
             System.out.println("Erro ao converter o tipo de artista!");
         }
+    }
+
+    private void listArtists() {
+        artists = repository.findAll();
+        artists.forEach(System.out::println);
     }
 }
