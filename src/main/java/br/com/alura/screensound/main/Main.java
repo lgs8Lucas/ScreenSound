@@ -1,11 +1,14 @@
 package br.com.alura.screensound.main;
 
 import br.com.alura.screensound.models.Artist;
+import br.com.alura.screensound.models.Genre;
+import br.com.alura.screensound.models.Music;
 import br.com.alura.screensound.models.Type;
 import br.com.alura.screensound.repository.ArtistRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -26,7 +29,7 @@ public class Main {
                 3 - Listar Musicas
                 4 - Listar Artistas / Bandas
                 5 - Buscar Musicas por Artista / Banda
-                6 - Pesquisar dados sobre um artirta
+                6 - Pesquisar dados sobre um artista
                 
                 0 - Exit
                 """;
@@ -39,6 +42,7 @@ public class Main {
                     insertArtist();
                     break;
                 case 2:
+                    insertMusic();
                     break;
                 case 3:
                     break;
@@ -62,6 +66,7 @@ public class Main {
         try{
             var type = Type.valueOf(sType.toUpperCase());
             Artist artist = new Artist(artistName, type);
+            System.out.println(artist);
             repository.save(artist);
         }
         catch (IllegalArgumentException e){
@@ -71,6 +76,39 @@ public class Main {
 
     private void listArtists() {
         artists = repository.findAll();
+        if (artists.isEmpty()) {
+            System.out.println("Nenhum Artista / Banda cadastrado!");
+            return;
+        }
+        System.out.println("Artistas / Bandas:");
         artists.forEach(System.out::println);
+    }
+
+    private void insertMusic() {
+        listArtists();
+        if (artists.isEmpty()) return;
+        System.out.println("Digite o nome do Artista / Banda: ");
+        var artistName = sc.nextLine();
+        Optional<Artist> artistExists = repository.findByNameContainingIgnoreCase(artistName);
+        if (artistExists.isEmpty()) {
+            System.out.println("Artista não encontrado!");
+            return;
+        }
+        var artist = artistExists.get();
+        System.out.println("Artista / Banda encontrado: "+artist.getName());
+        System.out.print("Digite o nome da música: ");
+        var name = sc.nextLine();
+        System.out.print("Digite o gênero da música: ");
+        var sGenre = sc.nextLine();
+        try{
+            var genre = Genre.valueOf(sGenre.toUpperCase());
+            Music music = new Music(name, artist, genre);
+            System.out.println(music);
+            artist.getMusics().add(music);
+            repository.save(artist);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Erro ao converter estido da música");
+        }
     }
 }

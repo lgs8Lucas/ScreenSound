@@ -57,6 +57,6 @@ public class Music {
 
     @Override
     public String toString() {
-        return "Musica: "+ title + ",  " + artist + "  |  " + genre;
+        return "Musica: "+ title + ",  " + artist.getName() + "  |  " + genre;
     }
 }
