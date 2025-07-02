@@ -45,9 +45,13 @@ public class Main {
                     insertMusic();
                     break;
                 case 3:
+                    listMusics();
                     break;
                 case 4:
                     listArtists();
+                    break;
+                case 5:
+                    listMusics();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -110,5 +114,26 @@ public class Main {
         catch (IllegalArgumentException e){
             System.out.println("Erro ao converter estido da música");
         }
+    }
+
+    private void listMusics(){
+        listArtists();
+        if (artists.isEmpty()) return;
+        System.out.println("Digite o nome do Artista / Banda: ");
+        var artistName = sc.nextLine();
+        Optional<Artist> artistExists = repository.findByNameContainingIgnoreCase(artistName);
+        if (artistExists.isEmpty()) {
+            System.out.println("Artista não encontrado!");
+            return;
+        }
+        var artist = artistExists.get();
+        System.out.print("Artista / Banda encontrado: "+artist.getName());
+        if ( artist.getMusics().isEmpty()){
+            System.out.println("Não há musicas");
+            return;
+        }
+        System.out.println("Musicas do Artista / Banda: ");
+        List<Music> musics = repository.musicByArtist(artist);
+        musics.forEach(System.out::println);
     }
 }
