@@ -5,7 +5,9 @@ import br.com.alura.screensound.models.Genre;
 import br.com.alura.screensound.models.Music;
 import br.com.alura.screensound.models.Type;
 import br.com.alura.screensound.repository.ArtistRepository;
+import br.com.alura.screensound.services.GeminiQuery;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,12 +55,26 @@ public class Main {
                 case 5:
                     listMusics();
                     break;
+                case 6:
+                    searchByArtist();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     return;
                 default:
                     System.out.println("Opção Inválida");
             }
+        }
+    }
+
+    private void searchByArtist() {
+        System.out.print("Digite o nome do Artista / Banda: ");
+        var artistName = sc.nextLine();
+        try {
+            var txt = GeminiQuery.getData(artistName);
+            System.out.println(txt);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
