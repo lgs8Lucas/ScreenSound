@@ -45,7 +45,7 @@ public class Main {
                     insertMusic();
                     break;
                 case 3:
-                    listMusics();
+                    listAllMusics();
                     break;
                 case 4:
                     listArtists();
@@ -134,6 +134,16 @@ public class Main {
         }
         System.out.println("Musicas do Artista / Banda: ");
         List<Music> musics = repository.musicByArtist(artist);
+        musics.forEach(System.out::println);
+    }
+
+    private void listAllMusics(){
+        List<Music> musics = repository.allMusics();
+        if (musics.isEmpty()) {
+            System.out.println("Nenhuma música cadastrada!");
+            return;
+        }
+        System.out.println("Músicas: ");
         musics.forEach(System.out::println);
     }
 }

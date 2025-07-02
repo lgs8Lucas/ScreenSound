@@ -12,4 +12,7 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Optional<Artist> findByNameContainingIgnoreCase(String name);
     @Query("SELECT m FROM Music m WHERE m.artist = :artist")
     List<Music> musicByArtist(Artist artist);
+
+    @Query("SELECT m FROM Music m ORDER BY m.artist.name")
+    List<Music> allMusics();
 }
