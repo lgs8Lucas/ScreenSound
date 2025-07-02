@@ -1,11 +1,19 @@
 package br.com.alura.screensound.main;
 
+import br.com.alura.screensound.models.Artist;
+import br.com.alura.screensound.repository.ArtistRepository;
+
 import java.util.Scanner;
 
 public class Main {
-    private static final Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
+    ArtistRepository repository;
 
-    public static void showMenu(){
+    public Main(ArtistRepository artistRepository) {
+        this.repository = artistRepository;
+    }
+
+    public void showMenu(){
         var option = 1;
         while (true) {
             var menu = """
@@ -24,7 +32,7 @@ public class Main {
 
             switch (option) {
                 case 1:
-
+                    insertArtist();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -33,5 +41,14 @@ public class Main {
                     System.out.println("Opção Inválida");
             }
         }
+    }
+
+    private void insertArtist() {
+        System.out.print("Digite o nome do Artista / Banda: ");
+        var artistName = sc.nextLine();
+        System.out.print("Digite o que é [SOLO, DUPLA, BANDA]: ");
+        var type = sc.nextLine();
+        Artist artist = new Artist(artistName, type);
+        repository.save(artist);
     }
 }

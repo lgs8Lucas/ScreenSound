@@ -27,6 +27,11 @@ public class Artist {
         this.musics = musics;
     }
 
+    public Artist(String name, String type) {
+        this.name = name;
+        this.type = Type.valueOf(type.toUpperCase());
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
